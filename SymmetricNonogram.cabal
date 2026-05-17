@@ -27,11 +27,13 @@ library Nonogram
 		Nonogram,
 		Nonogram.Coordinate,
 		Nonogram.Solution,
+		Nonogram.Hints,
 	build-depends:
 		base ^>= 4.17.2,
 		containers ^>= 0.6.7,
 		array ^>= 0.5.4,
-	hs-source-dirs: src
+		split ^>= 0.2.5,
+	hs-source-dirs: lib
 
 executable SymmetricGrids
 	import: shared-properties
@@ -39,5 +41,13 @@ executable SymmetricGrids
 	build-depends:
 		base ^>= 4.17.2,
 		containers ^>= 0.6.7,
+		Nonogram,
+	hs-source-dirs: app
+
+executable ToHints
+	import: shared-properties
+	main-is: ToHints.hs
+	build-depends:
+		base ^>= 4.17.2,
 		Nonogram,
 	hs-source-dirs: app

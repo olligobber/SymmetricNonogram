@@ -22,13 +22,13 @@ import qualified Data.Set as S
 import Data.Ix (Ix)
 
 newtype Width = Width Int
-	deriving (Show)
+	deriving (Eq, Show)
 
 newtype Height = Height Int
-	deriving (Show)
+	deriving (Eq, Show)
 
 data Dimensions = Dimensions { width :: Width, height :: Height }
-	deriving (Show)
+	deriving (Eq, Show)
 
 isSquare :: Dimensions -> Bool
 isSquare (Dimensions (Width w) (Height h)) = w == h
