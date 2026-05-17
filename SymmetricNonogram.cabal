@@ -20,6 +20,8 @@ common shared-properties
 		-Wno-prepositive-qualified-module
 		-Wno-tabs
 		-Wno-missing-kind-signatures
+		-Wno-x-partial
+		-Wno-missing-role-annotations
 
 library Nonogram
 	import: shared-properties
@@ -32,9 +34,9 @@ library Nonogram
 		Nonogram.Knowledge.Class,
 		Nonogram.Knowledge.STKnowledgeGrid,
 	build-depends:
-		base ^>= 4.17.2,
-		containers ^>= 0.6.7,
-		array ^>= 0.5.4,
+		base ^>= 4.20.2.0,
+		containers ^>= 0.7,
+		array ^>= 0.5.8,
 		split ^>= 0.2.5,
 	hs-source-dirs: lib
 
@@ -42,8 +44,8 @@ executable SymmetricGrids
 	import: shared-properties
 	main-is: SymmetricGrids.hs
 	build-depends:
-		base ^>= 4.17.2,
-		containers ^>= 0.6.7,
+		base ^>= 4.20.2.0,
+		containers ^>= 0.7,
 		Nonogram,
 	hs-source-dirs: app
 
@@ -51,6 +53,6 @@ executable ToHints
 	import: shared-properties
 	main-is: ToHints.hs
 	build-depends:
-		base ^>= 4.17.2,
+		base ^>= 4.20.2.0,
 		Nonogram,
 	hs-source-dirs: app

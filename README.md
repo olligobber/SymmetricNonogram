@@ -9,7 +9,7 @@ The purpose of this project is to determine if there are any symmetric nonograms
 This executable takes the width and height on separate lines, and outputs every symmetric nonogram solution of that size, one per line. For example,
 
 ```
-$ echo -e "3\n3" | cabal run SymmetricGrids
+$ echo -e "3\n3" | stack exec SymmetricGrids
 00020002000
 11121112111
 11121012111
@@ -25,7 +25,7 @@ $ echo -e "3\n3" | cabal run SymmetricGrids
 This executable takes a list of solutions, one on each line, and turns each one into its hints, outputting them one per line. For example:
 
 ```
-$ echo -e "01210\n01121102101" | cabal run ToHints
+$ echo -e "01210\n01121102101" | stack exec ToHints
 1;1/1;1
 2;2;1,1/2;2;1,1
 ```

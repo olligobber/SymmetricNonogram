@@ -5,13 +5,15 @@ module Nonogram.Knowledge.STKnowledgeGrid (
 	runSTKnowledgeGrid,
 	) where
 
-import Control.Applicative (liftA2)
-import Control.Monad.ST (ST)
+import Control.Monad.ST (ST, runST)
 import Data.Maybe (listToMaybe)
-import Data.Array.ST (STArray, readArray, writeArray, getAssocs, foldlMArray')
+import Data.Array.ST
+	( STArray
+	, newArray, readArray, writeArray, getAssocs, foldlMArray'
+	)
 import qualified Data.Set as S
 
-import Nonogram.Coordinate (Dimensions, Coordinate)
+import Nonogram.Coordinate (Dimensions, Coordinate, minCoordinate, maxCoordinate)
 import Nonogram.Knowledge (Knowledge(..))
 import Nonogram.Knowledge.Class (MonadError(..), KnowledgeGrid(..))
 import Nonogram.Solution (fromFilled)
@@ -46,27 +48,29 @@ instance KnowledgeGrid STKnowledgeGrid where
 	writeCell c k = STKnowledgeGrid $ \_ r -> Just <$> writeArray r c k
 	getUnknownOrSolution = STKnowledgeGrid $ \d r -> do
 		assocs <- getAssocs r
-		pure $ Just $ fromFilled d <$> foldl (liftA2 (<>)) (pure mempty)
-			(\c k -> case k of
+		pure $ Just $ fromFilled d <$> foldl (liftA2 (<>)) (pure mempty) (fmap
+			(\(c,k) -> case k of
 				Empty -> pure mempty
 				Filled -> pure $ S.singleton c
 				Unknown -> Left c
 			)
 			assocs
+			)
 	isSolved = STKnowledgeGrid $ \_ r ->
 		Just <$> foldlMArray' (\a k -> a && (k /= Unknown)) True r
 	getSolution = STKnowledgeGrid $ \d r -> do
 		assocs <- getAssocs r
-		pure $ Just $ fromFilled d <$> foldl (liftA2 (<>)) (pure mempty)
-			(\c k -> case k of
+		pure $ Just $ fromFilled d <$> foldl (liftA2 (<>)) (pure mempty) (fmap
+			(\(c,k) -> case k of
 				Empty -> pure mempty
 				Filled -> pure $ S.singleton c
 				Unknown -> Nothing
 			)
 			assocs
-	getUnknown = STKnowledgeGrid $ \d r -> do
+			)
+	getUnknown = STKnowledgeGrid $ \_ r -> do
 		assocs <- getAssocs r
-		pure $ Just $ listToMaybe $ fmap fst $ filter ((== Unkown) . snd) assocs
+		pure $ Just $ listToMaybe $ fmap fst $ filter ((== Unknown) . snd) assocs
 
 runSTKnowledgeGrid :: STKnowledgeGrid x -> Dimensions -> Maybe x
 runSTKnowledgeGrid (STKnowledgeGrid f) d = runST $ do
