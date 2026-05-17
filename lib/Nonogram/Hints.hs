@@ -2,12 +2,15 @@ module Nonogram.Hints (
 	Hints,
 	fromSolution,
 	saveHints,
+	loadHints,
 	) where
 
 import Data.List (group, intercalate)
+import Data.List.Split (splitOn)
+import Text.Read (readMaybe)
 
 import Nonogram.Coordinate
-	( Dimensions(width, height), Coordinate(Coordinate)
+	( Dimensions(..), Coordinate(Coordinate), Width(..), Height(..)
 	, allX, allY
 	)
 import Nonogram.Solution (Solution, getCell)
@@ -38,3 +41,20 @@ saveHints h = saveAll rowHints <> "/" <> saveAll colHints where
 
 	saveHint :: [Int] -> String
 	saveHint hint = intercalate "," $ show <$> hint
+
+loadHints :: String -> Maybe Hints
+loadHints s = do
+	(rowString, colString) <- case splitOn "/" s of
+		[a,b] -> Just (a,b)
+		_ -> Nothing
+	rHints <- parseHints rowString
+	cHints <- parseHints colString
+	pure $ Hints
+		(Dimensions (Width $ length cHints) (Height $ length rHints))
+		rHints
+		cHints
+	where
+		parseHints :: String -> Maybe [[Int]]
+		parseHints ss = traverse parseHint $ splitOn ";" ss
+		parseHint :: String -> Maybe [Int]
+		parseHint ss = traverse readMaybe $ splitOn "," ss
