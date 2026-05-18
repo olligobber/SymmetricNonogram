@@ -13,7 +13,7 @@ import Nonogram.Knowledge (Knowledge)
 import Nonogram.Solution (Solution)
 
 class Monad m => MonadError m where
-	fail :: m ()
+	error :: m ()
 
 class MonadError m => KnowledgeGrid m where
 	-- Read a cell's knowledge given its coordinates

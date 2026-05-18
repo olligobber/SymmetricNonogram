@@ -18,19 +18,19 @@ import Nonogram.Knowledge (Knowledge(..))
 import Nonogram.Knowledge.Class (MonadError(..), KnowledgeGrid(..))
 import Nonogram.Solution (fromFilled)
 
-newtype STKnowledgeGrid x =
-	STKnowledgeGrid (Dimensions -> forall s. STArray s Coordinate Knowledge -> ST s (Maybe x))
+newtype STKnowledgeGrid x = STKnowledgeGrid
+	(Dimensions -> forall s. STArray s Coordinate Knowledge -> ST s (Maybe x))
 
 instance Functor STKnowledgeGrid where
 	fmap f (STKnowledgeGrid x) = STKnowledgeGrid $ fmap (fmap $ fmap $ fmap f) x
 
 instance Applicative STKnowledgeGrid where
 	pure x = STKnowledgeGrid $ pure $ pure $ pure $ pure x
-	(STKnowledgeGrid f) <*> (STKnowledgeGrid x) = STKnowledgeGrid $
+	STKnowledgeGrid f <*> STKnowledgeGrid x = STKnowledgeGrid $
 		liftA2 (liftA2 $ liftA2 (<*>)) f x
 
 instance Monad STKnowledgeGrid where
-	(STKnowledgeGrid x) >>= f = STKnowledgeGrid $ \d r -> do
+	STKnowledgeGrid x >>= f = STKnowledgeGrid $ \d r -> do
 		x' <- x d r
 		case x' of
 			Nothing -> pure Nothing
@@ -41,7 +41,7 @@ instance Monad STKnowledgeGrid where
 					fx d r
 
 instance MonadError STKnowledgeGrid where
-	fail = STKnowledgeGrid $ pure $ pure $ pure Nothing
+	error = STKnowledgeGrid $ pure $ pure $ pure Nothing
 
 instance KnowledgeGrid STKnowledgeGrid where
 	readCell c = STKnowledgeGrid $ \_ r -> Just <$> readArray r c
