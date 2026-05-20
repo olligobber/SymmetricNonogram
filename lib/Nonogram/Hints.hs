@@ -1,5 +1,5 @@
 module Nonogram.Hints (
-	Hints,
+	Hints(dimensions, rowHints, colHints),
 	fromSolution,
 	saveHints,
 	loadHints,

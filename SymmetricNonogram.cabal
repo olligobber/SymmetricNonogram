@@ -22,6 +22,7 @@ common shared-properties
 		-Wno-missing-kind-signatures
 		-Wno-x-partial
 		-Wno-missing-role-annotations
+		-XScopedTypeVariables
 
 library Nonogram
 	import: shared-properties
@@ -34,11 +35,13 @@ library Nonogram
 		Nonogram.Knowledge.Class,
 		Nonogram.Knowledge.GridST,
 		Nonogram.Knowledge.GridNST,
+		Nonogram.Local,
 	build-depends:
 		base ^>= 4.20.2.0,
 		containers ^>= 0.7,
 		array ^>= 0.5.8,
 		split ^>= 0.2.5,
+		extra ^>= 1.8.1,
 	hs-source-dirs: lib
 
 executable SymmetricGrids

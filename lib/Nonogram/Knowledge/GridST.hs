@@ -15,7 +15,7 @@ import qualified Data.Set as S
 
 import Nonogram.Coordinate (Dimensions, Coordinate, minCoordinate, maxCoordinate)
 import Nonogram.Knowledge (Knowledge(..))
-import Nonogram.Knowledge.Class (MonadError(..), KnowledgeGrid(..))
+import Nonogram.Knowledge.Class (MonadRaise(..), KnowledgeGrid(..))
 import Nonogram.Solution (fromFilled)
 
 newtype GridST x = GridST
@@ -40,8 +40,8 @@ instance Monad GridST where
 				in
 					fx d r
 
-instance MonadError GridST where
-	error = GridST $ pure $ pure $ pure Nothing
+instance MonadRaise GridST where
+	raise = GridST $ pure $ pure $ pure Nothing
 
 instance KnowledgeGrid GridST where
 	readCell c = GridST $ \_ r -> Just <$> readArray r c

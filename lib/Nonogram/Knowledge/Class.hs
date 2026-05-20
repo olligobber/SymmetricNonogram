@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Nonogram.Knowledge.Class (
-	MonadError(..),
+	MonadRaise(..),
 	KnowledgeGrid(..),
 	NKnowledgeGrid(..),
 	) where
@@ -12,10 +12,10 @@ import Nonogram.Coordinate (Coordinate)
 import Nonogram.Knowledge (Knowledge)
 import Nonogram.Solution (Solution)
 
-class Monad m => MonadError m where
-	error :: m ()
+class Monad m => MonadRaise m where
+	raise :: m a
 
-class MonadError m => KnowledgeGrid m where
+class MonadRaise m => KnowledgeGrid m where
 	-- Read a cell's knowledge given its coordinates
 	readCell :: Coordinate -> m Knowledge
 
