@@ -32,7 +32,8 @@ library Nonogram
 		Nonogram.Hints,
 		Nonogram.Knowledge,
 		Nonogram.Knowledge.Class,
-		Nonogram.Knowledge.STKnowledgeGrid,
+		Nonogram.Knowledge.GridST,
+		Nonogram.Knowledge.GridNST,
 	build-depends:
 		base ^>= 4.20.2.0,
 		containers ^>= 0.7,
