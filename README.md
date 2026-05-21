@@ -1,6 +1,8 @@
 # Symmetric Nonogram
 
-The purpose of this project is to determine if there are any symmetric nonograms with a unique solution that cannot be solved locally. To read more about local nonograms, see [https://github.com/olligobber/LocalNonogram](github.com/olligobber/LocalNonogram).
+The purpose of this project is to determine if there are any symmetric nonograms with a unique solution that cannot be solved locally. To read more about local nonograms, see [https://github.com/olligobber/LocalNonogram](github.com/olligobber/LocalNonogram). The code has been used to find a symmetric 7x7 nonogram with a unique solution that cannot be solved locally:
+
+![A nonogram with the row hints 2 2, 2 2, 3, 3, 3, 2 2, 2 2, and the column hints 2 2, 2 2, 3, 3, 3, 2 2, 2 2.](./Example.svg)
 
 ## Executables
 
@@ -35,7 +37,11 @@ $ echo -e "01210\n01121102101" | stack exec ToHints
 This executable takes a list of hints, one on each line, and removes the ones that are locally solvable, outputting the ones that aren't locally solvable one per line. For example:
 
 ```
-$ echo -e "1/0\n1/1\n1;1;1;1/1,1;2\n1;1;1/1,1;1" | stack exec FilterLocal
-1/0
+$ echo -e "1/\n1/1\n1;1;1;1/1,1;2\n1;1;1/1,1;1" | stack exec FilterLocal
+1/
 1;1;1;1/1,1;2
 ```
+
+### Filter Multiple Solutions
+
+This executable takes a list of hints, one on each line, and removes the ones that have multiple solutions, outputting the ones with at most one solution one per line.
