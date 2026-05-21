@@ -22,9 +22,10 @@ possibleLines (h:hs) (k:ks) = skip <> fill where
 		_ -> (False:) <$> possibleLines (h:hs) ks
 	fill = go h (k:ks)
 	go :: Int -> [Knowledge] -> [[Bool]]
-	go _ [] = []
+	go 0 [] = [[]]
 	go 0 (Filled:_) = []
 	go 0 (_:kss) = (False:) <$> possibleLines hs kss
+	go _ [] = []
 	go _ (Empty:_) = []
 	go n (_:kss) = (True:) <$> go (n-1) kss
 

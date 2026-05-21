@@ -29,3 +29,13 @@ $ echo -e "01210\n01121102101" | stack exec ToHints
 1;1/1;1
 2;2;1,1/2;2;1,1
 ```
+
+### Filter Local
+
+This executable takes a list of hints, one on each line, and removes the ones that are locally solvable, outputting the ones that aren't locally solvable one per line. For example:
+
+```
+$ echo -e "1/0\n1/1\n1;1;1;1/1,1;2\n1;1;1/1,1;1" | stack exec FilterLocal
+1/0
+1;1;1;1/1,1;2
+```
