@@ -57,4 +57,5 @@ loadHints s = do
 		parseHints :: String -> Maybe [[Int]]
 		parseHints ss = traverse parseHint $ splitOn ";" ss
 		parseHint :: String -> Maybe [Int]
+		parseHint [] = Just []
 		parseHint ss = traverse readMaybe $ splitOn "," ss
