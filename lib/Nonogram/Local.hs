@@ -22,7 +22,7 @@ possibleLines (h:hs) (k:ks) = skip <> fill where
 		_ -> (False:) <$> possibleLines (h:hs) ks
 	fill = go h (k:ks)
 	go :: Int -> [Knowledge] -> [[Bool]]
-	go 0 [] = [[]]
+	go 0 [] | hs == [] = [[]]
 	go 0 (Filled:_) = []
 	go 0 (_:kss) = (False:) <$> possibleLines hs kss
 	go _ [] = []
@@ -57,10 +57,10 @@ localProgress :: forall m. KnowledgeGrid m => Hints -> m ()
 localProgress hints =
 	let
 		dimensions = H.dimensions hints
-		rowPositions = do
+		colPositions = do
 			x <- allX $ width dimensions
 			pure $ Coordinate x <$> allY (height dimensions)
-		colPositions = do
+		rowPositions = do
 			y <- allY $ height dimensions
 			pure $ flip Coordinate y <$> allX (width dimensions)
 		rowQueries, colQueries :: [m Bool]

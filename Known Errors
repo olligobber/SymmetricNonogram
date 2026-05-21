@@ -1,6 +1,0 @@
-Command
-	echo "2,2;2,2;2;2;2,2;2,2/2,2;2,2;2;2;2,2;2,2" | stack exec FilterLocal
-Expected output
-	none
-Actual output
-	2,2;2,2;2;2;2,2;2,2/2,2;2,2;2;2;2,2;2,2
